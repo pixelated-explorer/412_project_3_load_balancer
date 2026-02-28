@@ -2,17 +2,25 @@
 #include "Colors.h"
 #include <iostream>
 
+
+void WebServer::setLogServerMessages(const std::string& value)
+{
+    logServerMessages = value;  
+}
+
 void WebServer::setRequest(const Request& req)
 {
     currRequest = req;
     timeLeft = req.neededTime;
     working = true;
 
-    std::cout << COLOR_GREEN 
-              << "Server starting request "
-              << currRequest.ipIn << " -> " << currRequest.ipOut
-              << " (" << currRequest.jobType
-              << ", time=" << currRequest.neededTime << ")" << COLOR_RESET << "\n";
+    if (logServerMessages == "yes") {
+        std::cout << COLOR_GREEN 
+                  << "Server starting request "
+                  << currRequest.ipIn << " -> " << currRequest.ipOut
+                  << " (" << currRequest.jobType
+                  << ", time=" << currRequest.neededTime << ")" << COLOR_RESET << "\n";
+    }
 }
 
 
@@ -29,10 +37,12 @@ bool WebServer::processTick()
     if (timeLeft <= 0) {
         working = false;   
         timeLeft = 0;
-
-        std::cout << COLOR_GREEN << "Server finished request "
-                  << currRequest.ipIn << " -> " << currRequest.ipOut
-                  << " (" << currRequest.jobType << ")" << COLOR_RESET << "\n";
+        
+        if (logServerMessages == "yes") {
+            std::cout << COLOR_GREEN << "Server finished request "
+                      << currRequest.ipIn << " -> " << currRequest.ipOut
+                      << " (" << currRequest.jobType << ")" << COLOR_RESET << "\n";
+        }
         return true;
     }
     return false;

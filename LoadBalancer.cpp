@@ -5,7 +5,7 @@
 
 LoadBalancer::LoadBalancer(int numServers_, int waitCycles_, int lastTime_, 
     int maxNewRequestsPerTick_, int baseProcessTime_, 
-    int blockStart_, int blockEnd_, std::ofstream* logStream) {
+    int blockStart_, int blockEnd_, int requestArrivalPercent_, const std::string& logServerMessages_, std::ofstream* logStream) {
 
     numServers = numServers_; 
     waitCycles = waitCycles_; 
@@ -16,6 +16,10 @@ LoadBalancer::LoadBalancer(int numServers_, int waitCycles_, int lastTime_,
     blockStart = blockStart_;
     blockEnd = blockEnd_; 
 
+    requestArrivalPercent = requestArrivalPercent_;
+
+    logServerMessages = logServerMessages_;
+
     maxServersSeen = minServersSeen = numServers;
     maxQueueSeen = minQueueSeen = 0;
     log = logStream;
@@ -23,6 +27,12 @@ LoadBalancer::LoadBalancer(int numServers_, int waitCycles_, int lastTime_,
 
 void LoadBalancer::makeRequests()
 {
+    // 1) new incoming requests
+    int roll = std::rand() % 100;
+    if (roll >= requestArrivalPercent) {
+        return;  // no new requests this tick
+    }
+
     int newReqs = std::rand() % (maxNewRequestsPerTick + 1);
 
     for (int i = 0; i < newReqs; ++i) {
@@ -69,6 +79,7 @@ void LoadBalancer::makeRequests()
 void LoadBalancer::makeServers(int numToSpawn) {
     for (int i = 0; i < numToSpawn; ++i) {
         WebServer server; 
+        server.setLogServerMessages(logServerMessages);
         serverList.push_back(server); 
     }
 
@@ -174,8 +185,7 @@ void LoadBalancer::monitorQueue(int time)
 }
 
 void LoadBalancer::ticking(int time)
-{
-    // 1) new incoming requests
+{   
     makeRequests();
 
     int busyNow = 0; 

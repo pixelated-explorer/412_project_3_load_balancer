@@ -12,7 +12,8 @@
 class LoadBalancer {
     public: 
         LoadBalancer(int numServers, int waitCycles, int lastTime, int maxNewRequestsPerTick, 
-            int baseProcessTime, int blockStart, int blockEnd, std::ofstream* logStream);
+            int baseProcessTime, int blockStart, int blockEnd, int requestArrivalPercent, 
+            const std::string& logServerMessages, std::ofstream* logStream);
         void makeServers(int numServerSpawn);
         void initQueue(int numRequests); 
         void monitorQueue(int time); 
@@ -28,6 +29,8 @@ class LoadBalancer {
         int baseProcessTime;
         int blockStart; 
         int blockEnd;
+        int requestArrivalPercent;
+        std::string logServerMessages;
         std::queue<Request> reqQueue; 
         std::vector<WebServer> serverList; 
 
