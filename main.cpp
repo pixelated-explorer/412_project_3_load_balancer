@@ -1,17 +1,33 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
+#include <fstream>
+#include <filesystem>
 
 #include "LoadBalancer.h"
 
 int main() {
-    // 1) Seed random once
     std::srand(static_cast<unsigned int>(std::time(nullptr)));
+    
+    std::string logfile;
+    std::cout << "Provide unique log file name: ";
+    std::cin >> logfile;
+    
+    std::filesystem::create_directories("logs"); 
+    std::ofstream logFile("logs/" + logfile + ".txt");
+    if(!logFile) {
+        std::cout << "Failed to open log file!\n";
+        return 1; 
+    }
 
-    // 2) Get configuration from user
     int numServers;
     int runTime;
     int waitCycles;
+    int maxNewRequestsPerTick;
+    int baseProcessTime;
+
+    int blockStart; 
+    int blockEnd;
 
     std::cout << "Enter initial number of servers: ";
     std::cin >> numServers;
@@ -22,20 +38,29 @@ int main() {
     std::cout << "Enter wait cycles between scaling actions: ";
     std::cin >> waitCycles;
 
-    // 3) Create load balancer
+    std::cout << "Enter max new requests per tick: ";
+    std::cin >> maxNewRequestsPerTick;
+
+    std::cout << "Enter base process time (in cycles) per request: ";
+    std::cin >> baseProcessTime;
+
+    std::cout << "Enter block start time for ip: "; 
+    std::cin >> blockStart; 
+
+    std::cout << "Enter block end time for ip: ";
+    std::cin >> blockEnd; 
+
     // start lastTime at 0 so it can scale after waitCycles
     std::cout << "Initializing " << numServers << " servers" << std::endl;
-    LoadBalancer lb(numServers, waitCycles, 0);
+    LoadBalancer lb(numServers, waitCycles, 0, maxNewRequestsPerTick, baseProcessTime, blockStart, blockEnd, &logFile);
 
-    // 4) Create initial servers and fill queue (servers * 100)
     lb.makeServers(numServers);
     lb.initQueue(numServers * 100);
 
-    // 5) Main simulation loop
     for (int currTime = 0; currTime < runTime; ++currTime) {
         lb.ticking(currTime);
-        // later: logging, colored output, firewall checks, etc.
     }
-
+    lb.printResults();
+    logFile.close();
     return 0;
 }

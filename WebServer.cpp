@@ -1,4 +1,5 @@
 #include "WebServer.h"
+#include "Colors.h"
 #include <iostream>
 
 void WebServer::setRequest(const Request& req)
@@ -7,10 +8,11 @@ void WebServer::setRequest(const Request& req)
     timeLeft = req.neededTime;
     working = true;
 
-    std::cout << "Server starting request "
+    std::cout << COLOR_GREEN 
+              << "Server starting request "
               << currRequest.ipIn << " -> " << currRequest.ipOut
               << " (" << currRequest.jobType
-              << ", time=" << currRequest.neededTime << ")\n";
+              << ", time=" << currRequest.neededTime << ")" << COLOR_RESET << "\n";
 }
 
 
@@ -19,17 +21,19 @@ bool WebServer::isIdle() const
     return !working;
 }
 
-void WebServer::processTick()
+bool WebServer::processTick()
 {
-    if (!working) return;
+    if (!working) return false;
 
     timeLeft -= 1;
     if (timeLeft <= 0) {
         working = false;   
         timeLeft = 0;
 
-        std::cout << "Server finished request "
+        std::cout << COLOR_GREEN << "Server finished request "
                   << currRequest.ipIn << " -> " << currRequest.ipOut
-                  << " (" << currRequest.jobType << ")\n";
+                  << " (" << currRequest.jobType << ")" << COLOR_RESET << "\n";
+        return true;
     }
+    return false;
 }

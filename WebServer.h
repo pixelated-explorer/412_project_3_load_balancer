@@ -9,7 +9,7 @@ public:
 
     void setRequest(const Request& req);  
     bool isIdle() const;                  
-    void processTick();                   
+    bool processTick();                   
 
 private:
     bool working;

@@ -1,22 +1,48 @@
 #include <cstdlib> 
 #include <iostream>
+#include "Colors.h"
 #include "LoadBalancer.h"
 
-LoadBalancer::LoadBalancer(int numServers_, int waitCycles_, int lastTime_) {
+LoadBalancer::LoadBalancer(int numServers_, int waitCycles_, int lastTime_, 
+    int maxNewRequestsPerTick_, int baseProcessTime_, 
+    int blockStart_, int blockEnd_, std::ofstream* logStream) {
+
     numServers = numServers_; 
     waitCycles = waitCycles_; 
     lastTime = lastTime_; 
+    maxNewRequestsPerTick = maxNewRequestsPerTick_;
+    baseProcessTime = baseProcessTime_;
+
+    blockStart = blockStart_;
+    blockEnd = blockEnd_; 
+
+    maxServersSeen = minServersSeen = numServers;
+    maxQueueSeen = minQueueSeen = 0;
+    log = logStream;
 }
 
 void LoadBalancer::makeRequests()
 {
-    int newReqs = std::rand() % 4;  // 0–3 new requests this tick
+    int newReqs = std::rand() % (maxNewRequestsPerTick + 1);
 
     for (int i = 0; i < newReqs; ++i) {
         int a1 = std::rand() % 256;
         int a2 = std::rand() % 256;
         int a3 = std::rand() % 256;
         int a4 = std::rand() % 256;
+
+        bool blocked = false;
+        if (blockStart >= 0) {  // -1 means disabled
+            if (a1 >= blockStart && a1 <= blockEnd) {
+                blocked = true;
+            }
+        }
+
+        if (blocked) {
+            blockedRequests++;
+            // skip this request, treat as firewall/DOS protection
+            continue;
+        }
 
         int b1 = std::rand() % 256;
         int b2 = std::rand() % 256;
@@ -28,7 +54,10 @@ void LoadBalancer::makeRequests()
         std::string ipOut = std::to_string(b1) + "." + std::to_string(b2) + "." +
                             std::to_string(b3) + "." + std::to_string(b4);
 
-        int neededTime = (std::rand() % 10) + 1;   // 1–10 cycles
+        // Variation on top of base processing time (maybe remove if just want processing time to be constant?)
+        int variation = std::rand() % 5;          // 0–4
+        int neededTime = baseProcessTime + variation;
+        if (neededTime < 1) neededTime = 1; 
         int jt = std::rand() % 2;
         std::string jobType = (jt == 0) ? "stream" : "process";
 
@@ -54,6 +83,19 @@ void LoadBalancer::initQueue(int numRequests) {
         int a3 = std::rand() % 256;
         int a4 = std::rand() % 256;
 
+        bool blocked = false;
+        if (blockStart >= 0) {  // -1 means disabled
+            if (a1 >= blockStart && a1 <= blockEnd) {
+                blocked = true;
+            }
+        }
+
+        if (blocked) {
+            blockedRequests++;
+            // skip this request, treat as firewall/DOS protection
+            continue;
+        }
+
         int b1 = std::rand() % 256;
         int b2 = std::rand() % 256;
         int b3 = std::rand() % 256;
@@ -66,7 +108,9 @@ void LoadBalancer::initQueue(int numRequests) {
                             std::to_string(b3) + "." + std::to_string(b4);
 
         // neededTime between 1 and 10 cycles, 
-        int neededTime = (std::rand() % 10) + 1;   // 1–10 [web:44]
+        int variation = std::rand() % 5;          // 0–4
+        int neededTime = baseProcessTime + variation;
+        if (neededTime < 1) neededTime = 1; 
 
         // simple random job type: 0 = stream, 1 = process
         int jt = std::rand() % 2;
@@ -83,6 +127,9 @@ void LoadBalancer::monitorQueue(int time)
     int lower = 50 * numServers;
     int upper = 80 * numServers;
 
+    if (qSize > maxQueueSeen) maxQueueSeen = qSize;
+    if (minQueueSeen == 0 || qSize < minQueueSeen) minQueueSeen = qSize;
+
     int deltaTime = time - lastTime;
     if (deltaTime < waitCycles) {
         return;
@@ -93,8 +140,15 @@ void LoadBalancer::monitorQueue(int time)
         numServers = static_cast<int>(serverList.size());
         lastTime = time;
 
-        std::cout << "[Tick " << time << "] Scaling DOWN: now "
-                  << numServers << " servers, queue size " << qSize << "\n";
+        scaleDowns++;
+
+        std::cout << COLOR_YELLOW << "[Tick " << time << "] Scaling DOWN: now "
+                  << numServers << " servers, queue size " << qSize << COLOR_RESET << "\n";
+
+        if (log) {
+            (*log) << "TICK " << time << ": SCALE_DOWN to "
+                << numServers << " servers, queue=" << qSize << "\n";
+        }
     }
     else if (qSize > upper) {
         WebServer server;
@@ -102,15 +156,29 @@ void LoadBalancer::monitorQueue(int time)
         numServers = static_cast<int>(serverList.size());
         lastTime = time;
 
-        std::cout << "[Tick " << time << "] Scaling UP: now "
-                  << numServers << " servers, queue size " << qSize << "\n";
+        scaleUps++; 
+
+        std::cout << COLOR_YELLOW << "[Tick " << time << "] Scaling UP: now "
+                  << numServers << " servers, queue size " << qSize << COLOR_RESET << "\n";
+
+        if (log) {
+            (*log) << "TICK " << time << ": SCALE_UP to "
+                   << numServers << " servers, queue=" << qSize << "\n";
+        }
+
     }
+
+    if (numServers > maxServersSeen) maxServersSeen = numServers;
+    if (numServers < minServersSeen) minServersSeen = numServers;
+
 }
 
 void LoadBalancer::ticking(int time)
 {
     // 1) new incoming requests
     makeRequests();
+
+    int busyNow = 0; 
 
     // 2) assign work to idle servers
     for (int i = 0; i < numServers; ++i) {
@@ -123,9 +191,62 @@ void LoadBalancer::ticking(int time)
 
     // 3) let each server process one tick
     for (int i = 0; i < numServers; ++i) {
-        serverList[i].processTick();
+        if (!serverList[i].isIdle()) busyNow++;
+        if (serverList[i].processTick()) {
+            completedRequests++;                     
+        }
+    }
+
+    busyServerTicks += busyNow;      
+
+    if (numServers > maxServersSeen) maxServersSeen = numServers;
+    if (numServers < minServersSeen) minServersSeen = numServers;
+
+    // log every 100 ticks 
+
+    if (time % 100 == 0) {
+        std::cout << COLOR_RED << "TICK " << time << ": servers=" << numServers
+               << ", busy=" << busyNow
+               << ", queue=" << reqQueue.size() << COLOR_RESET << "\n";
+    }
+
+    if (log && time % 100 == 0) {
+        (*log) << "TICK " << time << ": servers=" << numServers
+               << ", busy=" << busyNow
+               << ", queue=" << reqQueue.size() << "\n";
     }
 
     // 4) adjust server count if needed
     monitorQueue(time);
+}
+
+void LoadBalancer::printResults()
+{
+
+    std::cout << "===== SUMMARY =====\n";
+    std::cout << "Final servers: " << numServers << "\n";
+    std::cout << "Min servers: " << minServersSeen
+              << ", Max servers: " << maxServersSeen << "\n";
+    std::cout << "Min queue: " << minQueueSeen
+              << ", Max queue: " << maxQueueSeen << "\n";
+    std::cout << "Scale ups: " << scaleUps
+              << ", Scale downs: " << scaleDowns << "\n";
+    std::cout << "Completed requests: " << completedRequests << "\n";
+    std::cout << "Blocked requests (firewall): " << blockedRequests << "\n";
+    std::cout << "Busy server ticks: " << busyServerTicks << "\n";
+
+
+    if (!log) return;
+
+    (*log) << "===== SUMMARY =====\n";
+    (*log) << "Final servers: " << numServers << "\n";
+    (*log) << "Min servers: " << minServersSeen
+           << ", Max servers: " << maxServersSeen << "\n";
+    (*log) << "Min queue: " << minQueueSeen
+           << ", Max queue: " << maxQueueSeen << "\n";
+    (*log) << "Scale ups: " << scaleUps
+           << ", Scale downs: " << scaleDowns << "\n";
+    (*log) << "Completed requests: " << completedRequests << "\n";
+    (*log) << "Blocked requests (firewall): " << blockedRequests << "\n";
+    (*log) << "Busy server ticks: " << busyServerTicks << "\n";
 }
