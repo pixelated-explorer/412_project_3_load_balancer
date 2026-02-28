@@ -13,9 +13,9 @@ class LoadBalancer {
     public: 
         LoadBalancer(int numServers, int waitCycles, int lastTime);
         // Functions 
-        void makeServers();
+        void makeServers(int numServerSpawn);
         void initQueue(int numRequests); 
-        void monitorQueue(); 
+        void monitorQueue(int time); 
         void makeRequests();
         void ticking(int time);
         
