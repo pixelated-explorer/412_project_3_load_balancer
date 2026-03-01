@@ -1,8 +1,0 @@
-numServers = 10
-runTime = 10000
-waitCycles = 50
-arrivalProb = 30
-maxNewRequestsPerTick = 3
-baseProcessTime = 5
-blockStart = -1
-blockEnd = 0

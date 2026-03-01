@@ -7,6 +7,30 @@
 #include <cctype>
 #include "LoadBalancer.h"
 
+/**
+ * @file main.cpp
+ * @brief Entry point for the load balancer simulation.
+ *
+ * This program configures a LoadBalancer either interactively or via a
+ * simple configuration file, runs the simulation for the requested
+ * number of clock cycles, and writes both console output and a log file.
+ */
+
+ /**
+ * @brief Program entry point.
+ *
+ * Steps:
+ *  - Ask the user for a log file name.
+ *  - Ask whether to enable verbose per-server logging.
+ *  - Optionally load configuration parameters from a file in the
+ *    @c configs/ directory.
+ *  - Prompt for any parameters not supplied by the configuration file.
+ *  - Create a LoadBalancer, seed the initial request queue, and run the
+ *    simulation for the requested number of ticks.
+ *  - Print and log a summary of results.
+ *
+ * @return 0 on success, non-zero on failure to open the log file.
+ */
 int main() {
     std::srand(static_cast<unsigned int>(std::time(nullptr)));
     
@@ -52,7 +76,9 @@ int main() {
         std::cout << "Enter config filename: ";
         std::cin >> cfgName;
 
-        std::ifstream cfg(cfgName);
+        
+        std::string fullPath = "configs/" + cfgName;
+        std::ifstream cfg(fullPath);
         if (!cfg) {
             std::cout << "Could not open config file, falling back to manual input.\n";
         } else {
@@ -115,6 +141,18 @@ int main() {
         std::cout << "Enter block end time for ip: ";
         std::cin >> blockEnd; 
     }
+
+    logFile << "===== CONFIGURATION =====\n";
+    logFile << "Log server messages: " << logServerMessages << "\n";
+    logFile << "Initial servers: " << numServers << "\n";
+    logFile << "Run time (ticks): " << runTime << "\n";
+    logFile << "Wait cycles between scaling: " << waitCycles << "\n";
+    logFile << "Arrival probability (%): " << arrivalProb << "\n";
+    logFile << "Max new requests per tick: " << maxNewRequestsPerTick << "\n";
+    logFile << "Base process time (cycles): " << baseProcessTime << "\n";
+    logFile << "Block start (IP first octet): " << blockStart << "\n";
+    logFile << "Block end (IP first octet): " << blockEnd << "\n";
+    logFile << "=========================\n\n";
 
     // start lastTime at 0 so it can scale after waitCycles
     std::cout << "Initializing " << numServers << " servers" << std::endl;

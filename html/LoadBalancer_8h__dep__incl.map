@@ -1,0 +1,7 @@
+<map id="LoadBalancer.h" name="LoadBalancer.h">
+<area shape="rect" id="Node000001" title="Declaration of the LoadBalancer class that manages servers and a queue of Requests." alt="" coords="74,5,185,31"/>
+<area shape="rect" id="Node000002" href="$LoadBalancer_8cpp.html" title="Implementation of the LoadBalancer class." alt="" coords="5,79,131,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="112,43,80,80,76,77,108,40"/>
+<area shape="rect" id="Node000003" href="$main_8cpp.html" title="Entry point for the load balancer simulation." alt="" coords="155,79,229,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="151,39,184,77,180,80,147,43"/>
+</map>

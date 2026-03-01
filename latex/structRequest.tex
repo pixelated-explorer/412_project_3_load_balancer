@@ -1,0 +1,83 @@
+\doxysection{Request Struct Reference}
+\hypertarget{structRequest}{}\label{structRequest}\index{Request@{Request}}
+
+
+Represents a single web request in the load balancer simulation.  
+
+
+
+
+{\ttfamily \#include $<$Request.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structRequest_afaf8d8928de7ffff8a3767589489bd33}{Request}} ()
+\begin{DoxyCompactList}\small\item\em Default constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structRequest_a8386cd96b1e883d2fa375f73e52a65f0}{Request}} (const std\+::string \&in, const std\+::string \&out, int time\+Needed, const std\+::string \&type)
+\begin{DoxyCompactList}\small\item\em Construct a fully specified \doxylink{structRequest}{Request}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{structRequest_aa83b5e8331e7f13fb5742984f955d0c1}\label{structRequest_aa83b5e8331e7f13fb5742984f955d0c1} 
+std\+::string {\bfseries ip\+In}
+\begin{DoxyCompactList}\small\item\em Incoming (client) IP address. \end{DoxyCompactList}\item 
+\Hypertarget{structRequest_af585c7ba4ed14c760cf8d72b232091b4}\label{structRequest_af585c7ba4ed14c760cf8d72b232091b4} 
+std\+::string {\bfseries ip\+Out}
+\begin{DoxyCompactList}\small\item\em Outgoing (server) IP address. \end{DoxyCompactList}\item 
+\Hypertarget{structRequest_a1014ce0a5aebc6dd0976ffae72330fe7}\label{structRequest_a1014ce0a5aebc6dd0976ffae72330fe7} 
+int {\bfseries needed\+Time}
+\begin{DoxyCompactList}\small\item\em Number of clock cycles required to complete this request. \end{DoxyCompactList}\item 
+\Hypertarget{structRequest_ae2d1644538064774605b131c633de5a2}\label{structRequest_ae2d1644538064774605b131c633de5a2} 
+std\+::string {\bfseries job\+Type}
+\begin{DoxyCompactList}\small\item\em Job type description, e.\+g., "{}stream"{} or "{}process"{}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Represents a single web request in the load balancer simulation. 
+
+A \doxylink{structRequest}{Request} contains\+:
+\begin{DoxyItemize}
+\item source IP address (ip\+In)
+\item destination IP address (ip\+Out)
+\item processing time (needed\+Time) in clock cycles
+\item job type (job\+Type) such as "{}stream"{} or "{}process"{} 
+\end{DoxyItemize}
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{structRequest_afaf8d8928de7ffff8a3767589489bd33}\label{structRequest_afaf8d8928de7ffff8a3767589489bd33} 
+\index{Request@{Request}!Request@{Request}}
+\index{Request@{Request}!Request@{Request}}
+\doxysubsubsection{\texorpdfstring{Request()}{Request()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Request\+::\+Request (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Default constructor. 
+
+Initializes {\ttfamily needed\+Time} to 0. Other fields are left empty. \Hypertarget{structRequest_a8386cd96b1e883d2fa375f73e52a65f0}\label{structRequest_a8386cd96b1e883d2fa375f73e52a65f0} 
+\index{Request@{Request}!Request@{Request}}
+\index{Request@{Request}!Request@{Request}}
+\doxysubsubsection{\texorpdfstring{Request()}{Request()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Request\+::\+Request (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{in,  }\item[{const std\+::string \&}]{out,  }\item[{int}]{time\+Needed,  }\item[{const std\+::string \&}]{type }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Construct a fully specified \doxylink{structRequest}{Request}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em in} & Incoming IP address (client). \\
+\hline
+{\em out} & Outgoing IP address (target server). \\
+\hline
+{\em time\+Needed} & Required processing time in clock cycles. \\
+\hline
+{\em type} & Job type string such as "{}stream"{} or "{}process"{}. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{Request_8h}{Request.\+h}}\end{DoxyCompactItemize}

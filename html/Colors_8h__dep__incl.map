@@ -1,0 +1,7 @@
+<map id="Colors.h" name="Colors.h">
+<area shape="rect" id="Node000001" title="ANSI color escape codes used to highlight console output." alt="" coords="103,5,174,31"/>
+<area shape="rect" id="Node000002" href="$LoadBalancer_8cpp.html" title="Implementation of the LoadBalancer class." alt="" coords="5,79,131,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="119,43,81,80,78,77,115,39"/>
+<area shape="rect" id="Node000003" href="$WebServer_8cpp.html" title="Implementation of the WebServer class." alt="" coords="155,79,266,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="162,39,201,77,197,80,159,43"/>
+</map>

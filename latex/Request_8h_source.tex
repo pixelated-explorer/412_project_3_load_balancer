@@ -1,0 +1,32 @@
+\doxysection{Request.\+h}
+\hypertarget{Request_8h_source}{}\label{Request_8h_source}\mbox{\hyperlink{Request_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ REQUEST\_H\ }}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ REQUEST\_H\ }}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <string>}\ }
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00023\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structRequest}{Request}}\ \{}
+\DoxyCodeLine{00025\ \ \ \ \ std::string\ \mbox{\hyperlink{structRequest_aa83b5e8331e7f13fb5742984f955d0c1}{ipIn}};}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00028\ \ \ \ \ std::string\ \mbox{\hyperlink{structRequest_af585c7ba4ed14c760cf8d72b232091b4}{ipOut}};}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structRequest_a1014ce0a5aebc6dd0976ffae72330fe7}{neededTime}};}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00034\ \ \ \ \ std::string\ \mbox{\hyperlink{structRequest_ae2d1644538064774605b131c633de5a2}{jobType}};}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00041\ \ \ \ \ \mbox{\hyperlink{structRequest_afaf8d8928de7ffff8a3767589489bd33}{Request}}()\ :\ \mbox{\hyperlink{structRequest_a1014ce0a5aebc6dd0976ffae72330fe7}{neededTime}}(0)\ \{\}}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00050\ \ \ \ \ \mbox{\hyperlink{structRequest_a8386cd96b1e883d2fa375f73e52a65f0}{Request}}(\textcolor{keyword}{const}\ std::string\&\ in,\ \textcolor{keyword}{const}\ std::string\&\ out,\ \textcolor{keywordtype}{int}\ timeNeeded,\ \textcolor{keyword}{const}\ std::string\&\ type)\ \{}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structRequest_aa83b5e8331e7f13fb5742984f955d0c1}{ipIn}}\ =\ in;\ }
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structRequest_af585c7ba4ed14c760cf8d72b232091b4}{ipOut}}\ =\ out;\ }
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structRequest_a1014ce0a5aebc6dd0976ffae72330fe7}{neededTime}}\ =\ timeNeeded;}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structRequest_ae2d1644538064774605b131c633de5a2}{jobType}}\ =\ type;\ }
+\DoxyCodeLine{00055\ \ \ \ \ \}}
+\DoxyCodeLine{00056\ \};}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

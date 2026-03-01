@@ -2,7 +2,12 @@
 #include "Colors.h"
 #include <iostream>
 
+/**
+ * @file WebServer.cpp
+ * @brief Implementation of the WebServer class.
+ */
 
+ 
 void WebServer::setLogServerMessages(const std::string& value)
 {
     logServerMessages = value;  

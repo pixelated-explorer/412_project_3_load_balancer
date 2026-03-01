@@ -3,6 +3,12 @@
 #include "Colors.h"
 #include "LoadBalancer.h"
 
+
+/**
+ * @file LoadBalancer.cpp
+ * @brief Implementation of the LoadBalancer class.
+ */
+
 LoadBalancer::LoadBalancer(int numServers_, int waitCycles_, int lastTime_, 
     int maxNewRequestsPerTick_, int baseProcessTime_, 
     int blockStart_, int blockEnd_, int requestArrivalPercent_, const std::string& logServerMessages_, std::ofstream* logStream) {
@@ -27,10 +33,10 @@ LoadBalancer::LoadBalancer(int numServers_, int waitCycles_, int lastTime_,
 
 void LoadBalancer::makeRequests()
 {
-    // 1) new incoming requests
+    // new incoming requests
     int roll = std::rand() % 100;
     if (roll >= requestArrivalPercent) {
-        return;  // no new requests this tick
+        return;  
     }
 
     int newReqs = std::rand() % (maxNewRequestsPerTick + 1);
@@ -50,6 +56,13 @@ void LoadBalancer::makeRequests()
 
         if (blocked) {
             blockedRequests++;
+
+            if (logServerMessages == "yes") {
+                std::cout << COLOR_RED
+                        << "Blocked request from IP first octet " << a1
+                        << " by firewall range [" << blockStart << ", " << blockEnd << "]"
+                        << COLOR_RESET << "\n";
+            }
             // skip this request, treat as firewall/DOS protection
             continue;
         }
@@ -64,8 +77,8 @@ void LoadBalancer::makeRequests()
         std::string ipOut = std::to_string(b1) + "." + std::to_string(b2) + "." +
                             std::to_string(b3) + "." + std::to_string(b4);
 
-        // Variation on top of base processing time (maybe remove if just want processing time to be constant?)
-        int variation = std::rand() % 5;          // 0–4
+        // Variation on top of base processing time 
+        int variation = std::rand() % 5;          
         int neededTime = baseProcessTime + variation;
         if (neededTime < 1) neededTime = 1; 
         int jt = std::rand() % 2;
@@ -103,6 +116,12 @@ void LoadBalancer::initQueue(int numRequests) {
 
         if (blocked) {
             blockedRequests++;
+            if (logServerMessages == "yes") {
+                std::cout << COLOR_RED
+                        << "Blocked request from IP first octet " << a1
+                        << " by firewall range [" << blockStart << ", " << blockEnd << "]"
+                        << COLOR_RESET << "\n";
+            }
             // skip this request, treat as firewall/DOS protection
             continue;
         }
@@ -190,7 +209,7 @@ void LoadBalancer::ticking(int time)
 
     int busyNow = 0; 
 
-    // 2) assign work to idle servers
+    //iterate on idle servers
     for (int i = 0; i < numServers; ++i) {
         if (serverList[i].isIdle() && !reqQueue.empty()) {
             Request nextReq = reqQueue.front();
@@ -199,7 +218,7 @@ void LoadBalancer::ticking(int time)
         }
     }
 
-    // 3) let each server process one tick
+    // let each server process one tick
     for (int i = 0; i < numServers; ++i) {
         if (!serverList[i].isIdle()) busyNow++;
         if (serverList[i].processTick()) {
@@ -226,7 +245,7 @@ void LoadBalancer::ticking(int time)
                << ", queue=" << reqQueue.size() << "\n";
     }
 
-    // 4) adjust server count if needed
+    // adjust server count 
     monitorQueue(time);
 }
 

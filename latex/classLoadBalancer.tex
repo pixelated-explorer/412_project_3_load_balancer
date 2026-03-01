@@ -1,0 +1,174 @@
+\doxysection{Load\+Balancer Class Reference}
+\hypertarget{classLoadBalancer}{}\label{classLoadBalancer}\index{LoadBalancer@{LoadBalancer}}
+
+
+Simulates a load balancer managing a pool of \doxylink{classWebServer}{Web\+Server} instances.  
+
+
+
+
+{\ttfamily \#include $<$Load\+Balancer.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classLoadBalancer_a05727d4c6b8ad9facff69089e0620085}{Load\+Balancer}} (int num\+Servers, int wait\+Cycles, int last\+Time, int max\+New\+Requests\+Per\+Tick, int base\+Process\+Time, int block\+Start, int block\+End, int request\+Arrival\+Percent, const std\+::string \&log\+Server\+Messages, std\+::ofstream \texorpdfstring{$\ast$}{*}log\+Stream)
+\begin{DoxyCompactList}\small\item\em Construct a \doxylink{classLoadBalancer}{Load\+Balancer} with initial configuration. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLoadBalancer_a890d5cfbaf7497c0531f2c135a679690}{make\+Servers}} (int num\+Server\+Spawn)
+\begin{DoxyCompactList}\small\item\em Create additional servers and append them to the server list. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLoadBalancer_a121f335d2cd8168a01507f811e79cc7c}{init\+Queue}} (int num\+Requests)
+\begin{DoxyCompactList}\small\item\em Initialize the request queue with a given number of random Requests. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLoadBalancer_a5e48f5b0728addfc1c33e6ad9952ed64}{monitor\+Queue}} (int time)
+\begin{DoxyCompactList}\small\item\em Monitor the queue and adjust the number of servers if needed. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLoadBalancer_a6a76c5063de70c3f21cf9c6f2f6a6554}{make\+Requests}} ()
+\begin{DoxyCompactList}\small\item\em Generate new incoming requests for the current tick. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLoadBalancer_a0503d5d1d0f8ef109adfbd5287a218db}{ticking}} (int time)
+\begin{DoxyCompactList}\small\item\em Perform one simulation tick. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLoadBalancer_a4abfd41ab423310de700b230d2a1f6cb}{print\+Results}} ()
+\begin{DoxyCompactList}\small\item\em Print and log a summary of the simulation results. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Simulates a load balancer managing a pool of \doxylink{classWebServer}{Web\+Server} instances. 
+
+The \doxylink{classLoadBalancer}{Load\+Balancer} maintains a queue of Requests, dynamically adjusts the number of servers based on queue length, and collects statistics such as scale ups/downs, completed requests, and busy server ticks. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classLoadBalancer_a05727d4c6b8ad9facff69089e0620085}\label{classLoadBalancer_a05727d4c6b8ad9facff69089e0620085} 
+\index{LoadBalancer@{LoadBalancer}!LoadBalancer@{LoadBalancer}}
+\index{LoadBalancer@{LoadBalancer}!LoadBalancer@{LoadBalancer}}
+\doxysubsubsection{\texorpdfstring{LoadBalancer()}{LoadBalancer()}}
+{\footnotesize\ttfamily Load\+Balancer\+::\+Load\+Balancer (\begin{DoxyParamCaption}\item[{int}]{num\+Servers,  }\item[{int}]{wait\+Cycles,  }\item[{int}]{last\+Time,  }\item[{int}]{max\+New\+Requests\+Per\+Tick,  }\item[{int}]{base\+Process\+Time,  }\item[{int}]{block\+Start,  }\item[{int}]{block\+End,  }\item[{int}]{request\+Arrival\+Percent,  }\item[{const std\+::string \&}]{log\+Server\+Messages,  }\item[{std\+::ofstream \texorpdfstring{$\ast$}{*}}]{log\+Stream }\end{DoxyParamCaption})}
+
+
+
+Construct a \doxylink{classLoadBalancer}{Load\+Balancer} with initial configuration. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em num\+Servers} & Initial number of web servers. \\
+\hline
+{\em wait\+Cycles} & Number of cycles to wait between scaling actions. \\
+\hline
+{\em last\+Time} & Initial last-\/scaling timestamp (typically 0). \\
+\hline
+{\em max\+New\+Requests\+Per\+Tick} & Maximum new requests that may arrive per tick. \\
+\hline
+{\em base\+Process\+Time} & Base processing time added to each \doxylink{structRequest}{Request}. \\
+\hline
+{\em block\+Start} & First octet of IPs to block (inclusive), or -\/1 to disable. \\
+\hline
+{\em block\+End} & Last octet of IPs to block (inclusive). \\
+\hline
+{\em request\+Arrival\+Percent} & Probability (0–100) that new requests appear each tick. \\
+\hline
+{\em log\+Server\+Messages} & Flag ("{}yes"{}/"{}no"{}) controlling per-\/server log output. \\
+\hline
+{\em log\+Stream} & Optional pointer to a log file stream for summary/tick logs. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classLoadBalancer_a121f335d2cd8168a01507f811e79cc7c}\label{classLoadBalancer_a121f335d2cd8168a01507f811e79cc7c} 
+\index{LoadBalancer@{LoadBalancer}!initQueue@{initQueue}}
+\index{initQueue@{initQueue}!LoadBalancer@{LoadBalancer}}
+\doxysubsubsection{\texorpdfstring{initQueue()}{initQueue()}}
+{\footnotesize\ttfamily void Load\+Balancer\+::init\+Queue (\begin{DoxyParamCaption}\item[{int}]{num\+Requests }\end{DoxyParamCaption})}
+
+
+
+Initialize the request queue with a given number of random Requests. 
+
+This is used to seed the simulation with an initial backlog of work.
+
+
+\begin{DoxyParams}{Parameters}
+{\em num\+Requests} & Number of Requests to push into the queue. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classLoadBalancer_a6a76c5063de70c3f21cf9c6f2f6a6554}\label{classLoadBalancer_a6a76c5063de70c3f21cf9c6f2f6a6554} 
+\index{LoadBalancer@{LoadBalancer}!makeRequests@{makeRequests}}
+\index{makeRequests@{makeRequests}!LoadBalancer@{LoadBalancer}}
+\doxysubsubsection{\texorpdfstring{makeRequests()}{makeRequests()}}
+{\footnotesize\ttfamily void Load\+Balancer\+::make\+Requests (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Generate new incoming requests for the current tick. 
+
+With probability {\ttfamily request\+Arrival\+Percent}, a random number of new Requests (0..max\+New\+Requests\+Per\+Tick) are generated and added to the queue, unless they are blocked by the configured IP firewall range. \Hypertarget{classLoadBalancer_a890d5cfbaf7497c0531f2c135a679690}\label{classLoadBalancer_a890d5cfbaf7497c0531f2c135a679690} 
+\index{LoadBalancer@{LoadBalancer}!makeServers@{makeServers}}
+\index{makeServers@{makeServers}!LoadBalancer@{LoadBalancer}}
+\doxysubsubsection{\texorpdfstring{makeServers()}{makeServers()}}
+{\footnotesize\ttfamily void Load\+Balancer\+::make\+Servers (\begin{DoxyParamCaption}\item[{int}]{num\+Server\+Spawn }\end{DoxyParamCaption})}
+
+
+
+Create additional servers and append them to the server list. 
+
+Each new \doxylink{classWebServer}{Web\+Server} is configured with the current log\+Server\+Messages flag.
+
+
+\begin{DoxyParams}{Parameters}
+{\em num\+Server\+Spawn} & Number of new servers to create. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classLoadBalancer_a5e48f5b0728addfc1c33e6ad9952ed64}\label{classLoadBalancer_a5e48f5b0728addfc1c33e6ad9952ed64} 
+\index{LoadBalancer@{LoadBalancer}!monitorQueue@{monitorQueue}}
+\index{monitorQueue@{monitorQueue}!LoadBalancer@{LoadBalancer}}
+\doxysubsubsection{\texorpdfstring{monitorQueue()}{monitorQueue()}}
+{\footnotesize\ttfamily void Load\+Balancer\+::monitor\+Queue (\begin{DoxyParamCaption}\item[{int}]{time }\end{DoxyParamCaption})}
+
+
+
+Monitor the queue and adjust the number of servers if needed. 
+
+If the queue size falls below 50 \texorpdfstring{$\ast$}{*} num\+Servers, the load balancer scales down by one server. If the queue size exceeds 80 \texorpdfstring{$\ast$}{*} num\+Servers, it scales up by one server. A minimum wait period (wait\+Cycles) is enforced between consecutive scaling actions.
+
+
+\begin{DoxyParams}{Parameters}
+{\em time} & Current simulation clock tick. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classLoadBalancer_a4abfd41ab423310de700b230d2a1f6cb}\label{classLoadBalancer_a4abfd41ab423310de700b230d2a1f6cb} 
+\index{LoadBalancer@{LoadBalancer}!printResults@{printResults}}
+\index{printResults@{printResults}!LoadBalancer@{LoadBalancer}}
+\doxysubsubsection{\texorpdfstring{printResults()}{printResults()}}
+{\footnotesize\ttfamily void Load\+Balancer\+::print\+Results (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Print and log a summary of the simulation results. 
+
+Outputs final number of servers, min/max servers, min/max queue size, number of scale ups/downs, completed and blocked requests, and total busy server ticks. \Hypertarget{classLoadBalancer_a0503d5d1d0f8ef109adfbd5287a218db}\label{classLoadBalancer_a0503d5d1d0f8ef109adfbd5287a218db} 
+\index{LoadBalancer@{LoadBalancer}!ticking@{ticking}}
+\index{ticking@{ticking}!LoadBalancer@{LoadBalancer}}
+\doxysubsubsection{\texorpdfstring{ticking()}{ticking()}}
+{\footnotesize\ttfamily void Load\+Balancer\+::ticking (\begin{DoxyParamCaption}\item[{int}]{time }\end{DoxyParamCaption})}
+
+
+
+Perform one simulation tick. 
+
+Steps per tick\+:
+\begin{DoxyItemize}
+\item Generate new requests.
+\item Assign requests from the queue to idle servers.
+\item Advance each server by one tick.
+\item Record how many servers are busy.
+\item Periodically log a status line.
+\item Call \doxylink{classLoadBalancer_a5e48f5b0728addfc1c33e6ad9952ed64}{monitor\+Queue()} to potentially scale up/down.
+\end{DoxyItemize}
+
+
+\begin{DoxyParams}{Parameters}
+{\em time} & Current simulation clock tick. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{LoadBalancer_8h}{Load\+Balancer.\+h}}\item 
+\mbox{\hyperlink{LoadBalancer_8cpp}{Load\+Balancer.\+cpp}}\end{DoxyCompactItemize}

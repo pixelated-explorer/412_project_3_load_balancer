@@ -1,0 +1,66 @@
+\doxysection{Load\+Balancer.\+h}
+\hypertarget{LoadBalancer_8h_source}{}\label{LoadBalancer_8h_source}\mbox{\hyperlink{LoadBalancer_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ LOADBALANCER\_H\ }}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ LOADBALANCER\_H\ }}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <string>}\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <queue>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <fstream>}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{WebServer_8h}{WebServer.h}}"{}}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{Request_8h}{Request.h}}"{}}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00026\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classLoadBalancer}{LoadBalancer}}\ \{}
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keyword}{public}:\ }
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classLoadBalancer}{LoadBalancer}}(\textcolor{keywordtype}{int}\ numServers,\ \textcolor{keywordtype}{int}\ waitCycles,\ \textcolor{keywordtype}{int}\ lastTime,\ \textcolor{keywordtype}{int}\ maxNewRequestsPerTick,\ }
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ baseProcessTime,\ \textcolor{keywordtype}{int}\ blockStart,\ \textcolor{keywordtype}{int}\ blockEnd,\ \textcolor{keywordtype}{int}\ requestArrivalPercent,\ }
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::string\&\ logServerMessages,\ std::ofstream*\ logStream);}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classLoadBalancer_a890d5cfbaf7497c0531f2c135a679690}{makeServers}}(\textcolor{keywordtype}{int}\ numServerSpawn);}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classLoadBalancer_a121f335d2cd8168a01507f811e79cc7c}{initQueue}}(\textcolor{keywordtype}{int}\ numRequests);\ }
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classLoadBalancer_a5e48f5b0728addfc1c33e6ad9952ed64}{monitorQueue}}(\textcolor{keywordtype}{int}\ time);\ }
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classLoadBalancer_a6a76c5063de70c3f21cf9c6f2f6a6554}{makeRequests}}();}
+\DoxyCodeLine{00085\ }
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classLoadBalancer_a0503d5d1d0f8ef109adfbd5287a218db}{ticking}}(\textcolor{keywordtype}{int}\ time);}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classLoadBalancer_a4abfd41ab423310de700b230d2a1f6cb}{printResults}}();}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00110\ \ \ \ \ \textcolor{keyword}{private}:\ }
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ waitCycles;\ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ lastTime;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ numServers;\ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ maxNewRequestsPerTick;\ \ \ }
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ baseProcessTime;\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ blockStart;\ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ blockEnd;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ requestArrivalPercent;\ \ \ }
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ std::string\ logServerMessages;\ }
+\DoxyCodeLine{00120\ }
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ std::queue<Request>\ reqQueue;\ }
+\DoxyCodeLine{00123\ }
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ std::vector<WebServer>\ serverList;\ }
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ std::ofstream*\ log;\ \ \ \ \ }
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ simple\ stats}}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long}\ scaleUps\ \ \ \ \ \ \ \ =\ 0;\ }
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long}\ scaleDowns\ \ \ \ \ \ =\ 0;\ }
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long}\ blockedRequests\ =\ 0;\ }
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long}\ completedRequests\ =\ 0;\ }
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long}\ busyServerTicks\ =\ 0;\ }
+\DoxyCodeLine{00135\ }
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ maxServersSeen\ =\ 0;\ }
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ minServersSeen\ =\ 0;\ }
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ maxQueueSeen\ \ \ =\ 0;\ }
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ minQueueSeen\ \ \ =\ 0;\ }
+\DoxyCodeLine{00140\ \};}
+\DoxyCodeLine{00141\ }
+\DoxyCodeLine{00142\ }
+\DoxyCodeLine{00143\ \textcolor{preprocessor}{\#endif\ }}
+
+\end{DoxyCode}

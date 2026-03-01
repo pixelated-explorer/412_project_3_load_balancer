@@ -1,0 +1,35 @@
+\doxysection{Web\+Server.\+h}
+\hypertarget{WebServer_8h_source}{}\label{WebServer_8h_source}\mbox{\hyperlink{WebServer_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ WEBSERVER\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ WEBSERVER\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{Request_8h}{Request.h}}"{}}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00019\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classWebServer}{WebServer}}\ \{}
+\DoxyCodeLine{00020\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00027\ \ \ \ \ \mbox{\hyperlink{classWebServer_ad053f4e1808a3c10c7522d0dbbbc031a}{WebServer}}()\ :\ working(false),\ timeLeft(0),\ logServerMessages(\textcolor{stringliteral}{"{}no"{}})\ \{\}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classWebServer_a58c5758f0af357b53364bf87d6beae5c}{setLogServerMessages}}(\textcolor{keyword}{const}\ std::string\&\ value);}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classWebServer_aba80de13a1bbd97a040b371a7645ec53}{setRequest}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structRequest}{Request}}\&\ req);\ \ }
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00054\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classWebServer_a3dc0403ae54b9072865b36a57d7fd6a7}{isIdle}}()\ \textcolor{keyword}{const};\ \ \ \ \ }
+\DoxyCodeLine{00055\ \ \ \ \ }
+\DoxyCodeLine{00056\ \ \ \ \ }
+\DoxyCodeLine{00066\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classWebServer_aa06a71feffcbf17bf58070c54a829a39}{processTick}}();\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00070\ \ \ \ \ \textcolor{keywordtype}{bool}\ working;}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00073\ \ \ \ \ \textcolor{keywordtype}{int}\ timeLeft;}
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00076\ \ \ \ \ \mbox{\hyperlink{structRequest}{Request}}\ currRequest;}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00083\ \ \ \ \ std::string\ logServerMessages;}
+\DoxyCodeLine{00084\ \};}
+\DoxyCodeLine{00085\ }
+\DoxyCodeLine{00086\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

@@ -1,0 +1,113 @@
+\doxysection{Web\+Server Class Reference}
+\hypertarget{classWebServer}{}\label{classWebServer}\index{WebServer@{WebServer}}
+
+
+Simulated web server that processes a single \doxylink{structRequest}{Request} at a time.  
+
+
+
+
+{\ttfamily \#include $<$Web\+Server.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classWebServer_ad053f4e1808a3c10c7522d0dbbbc031a}{Web\+Server}} ()
+\begin{DoxyCompactList}\small\item\em Default constructor. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classWebServer_a58c5758f0af357b53364bf87d6beae5c}{set\+Log\+Server\+Messages}} (const std\+::string \&value)
+\begin{DoxyCompactList}\small\item\em Enable or disable verbose server logging. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classWebServer_aba80de13a1bbd97a040b371a7645ec53}{set\+Request}} (const \mbox{\hyperlink{structRequest}{Request}} \&req)
+\begin{DoxyCompactList}\small\item\em Assign a new \doxylink{structRequest}{Request} to this server. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classWebServer_a3dc0403ae54b9072865b36a57d7fd6a7}{is\+Idle}} () const
+\begin{DoxyCompactList}\small\item\em Query whether the server is currently idle. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classWebServer_aa06a71feffcbf17bf58070c54a829a39}{process\+Tick}} ()
+\begin{DoxyCompactList}\small\item\em Process one clock tick of work. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Simulated web server that processes a single \doxylink{structRequest}{Request} at a time. 
+
+A \doxylink{classWebServer}{Web\+Server} either has an active \doxylink{structRequest}{Request} or is idle. Each call to \doxylink{classWebServer_aa06a71feffcbf17bf58070c54a829a39}{process\+Tick()} advances the current \doxylink{structRequest}{Request} by one clock cycle. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classWebServer_ad053f4e1808a3c10c7522d0dbbbc031a}\label{classWebServer_ad053f4e1808a3c10c7522d0dbbbc031a} 
+\index{WebServer@{WebServer}!WebServer@{WebServer}}
+\index{WebServer@{WebServer}!WebServer@{WebServer}}
+\doxysubsubsection{\texorpdfstring{WebServer()}{WebServer()}}
+{\footnotesize\ttfamily Web\+Server\+::\+Web\+Server (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Default constructor. 
+
+Initializes the server as idle, with zero remaining time and logging of server messages disabled by default. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classWebServer_a3dc0403ae54b9072865b36a57d7fd6a7}\label{classWebServer_a3dc0403ae54b9072865b36a57d7fd6a7} 
+\index{WebServer@{WebServer}!isIdle@{isIdle}}
+\index{isIdle@{isIdle}!WebServer@{WebServer}}
+\doxysubsubsection{\texorpdfstring{isIdle()}{isIdle()}}
+{\footnotesize\ttfamily bool Web\+Server\+::is\+Idle (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Query whether the server is currently idle. 
+
+\begin{DoxyReturn}{Returns}
+{\ttfamily true} if the server has no active request, {\ttfamily false} otherwise. 
+\end{DoxyReturn}
+\Hypertarget{classWebServer_aa06a71feffcbf17bf58070c54a829a39}\label{classWebServer_aa06a71feffcbf17bf58070c54a829a39} 
+\index{WebServer@{WebServer}!processTick@{processTick}}
+\index{processTick@{processTick}!WebServer@{WebServer}}
+\doxysubsubsection{\texorpdfstring{processTick()}{processTick()}}
+{\footnotesize\ttfamily bool Web\+Server\+::process\+Tick (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Process one clock tick of work. 
+
+If the server is working, this decrements {\ttfamily time\+Left} by one. When {\ttfamily time\+Left} reaches zero, the request is considered complete and the server becomes idle again.
+
+\begin{DoxyReturn}{Returns}
+{\ttfamily true} if a request finished on this tick, otherwise {\ttfamily false}. 
+\end{DoxyReturn}
+\Hypertarget{classWebServer_a58c5758f0af357b53364bf87d6beae5c}\label{classWebServer_a58c5758f0af357b53364bf87d6beae5c} 
+\index{WebServer@{WebServer}!setLogServerMessages@{setLogServerMessages}}
+\index{setLogServerMessages@{setLogServerMessages}!WebServer@{WebServer}}
+\doxysubsubsection{\texorpdfstring{setLogServerMessages()}{setLogServerMessages()}}
+{\footnotesize\ttfamily void Web\+Server\+::set\+Log\+Server\+Messages (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{value }\end{DoxyParamCaption})}
+
+
+
+Enable or disable verbose server logging. 
+
+If {\ttfamily value} is exactly "{}yes"{}, per-\/server messages will be printed to the console when a request starts and finishes.
+
+
+\begin{DoxyParams}{Parameters}
+{\em value} & Logging flag (typically "{}yes"{} or "{}no"{}). \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classWebServer_aba80de13a1bbd97a040b371a7645ec53}\label{classWebServer_aba80de13a1bbd97a040b371a7645ec53} 
+\index{WebServer@{WebServer}!setRequest@{setRequest}}
+\index{setRequest@{setRequest}!WebServer@{WebServer}}
+\doxysubsubsection{\texorpdfstring{setRequest()}{setRequest()}}
+{\footnotesize\ttfamily void Web\+Server\+::set\+Request (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structRequest}{Request}} \&}]{req }\end{DoxyParamCaption})}
+
+
+
+Assign a new \doxylink{structRequest}{Request} to this server. 
+
+The server becomes busy and {\ttfamily time\+Left} is initialized from \doxylink{structRequest_a1014ce0a5aebc6dd0976ffae72330fe7}{Request\+::needed\+Time}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em req} & The \doxylink{structRequest}{Request} to start processing. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{WebServer_8h}{Web\+Server.\+h}}\item 
+\mbox{\hyperlink{WebServer_8cpp}{Web\+Server.\+cpp}}\end{DoxyCompactItemize}

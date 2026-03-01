@@ -1,0 +1,59 @@
+\doxysection{main.\+cpp File Reference}
+\hypertarget{main_8cpp}{}\label{main_8cpp}\index{main.cpp@{main.cpp}}
+
+
+Entry point for the load balancer simulation.  
+
+
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$cstdlib$>$}\newline
+{\ttfamily \#include $<$ctime$>$}\newline
+{\ttfamily \#include $<$fstream$>$}\newline
+{\ttfamily \#include $<$filesystem$>$}\newline
+{\ttfamily \#include $<$sstream$>$}\newline
+{\ttfamily \#include $<$cctype$>$}\newline
+{\ttfamily \#include "{}Load\+Balancer.\+h"{}}\newline
+Include dependency graph for main.\+cpp\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{main_8cpp__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{main_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}{main}} ()
+\begin{DoxyCompactList}\small\item\em Program entry point. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Entry point for the load balancer simulation. 
+
+This program configures a \doxylink{classLoadBalancer}{Load\+Balancer} either interactively or via a simple configuration file, runs the simulation for the requested number of clock cycles, and writes both console output and a log file. 
+
+\doxysubsection{Function Documentation}
+\Hypertarget{main_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}\label{main_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4} 
+\index{main.cpp@{main.cpp}!main@{main}}
+\index{main@{main}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Program entry point. 
+
+Steps\+:
+\begin{DoxyItemize}
+\item Ask the user for a log file name.
+\item Ask whether to enable verbose per-\/server logging.
+\item Optionally load configuration parameters from a file in the {\ttfamily configs/} directory.
+\item Prompt for any parameters not supplied by the configuration file.
+\item Create a \doxylink{classLoadBalancer}{Load\+Balancer}, seed the initial request queue, and run the simulation for the requested number of ticks.
+\item Print and log a summary of results.
+\end{DoxyItemize}
+
+\begin{DoxyReturn}{Returns}
+0 on success, non-\/zero on failure to open the log file. 
+\end{DoxyReturn}
