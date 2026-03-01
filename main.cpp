@@ -150,6 +150,12 @@ int main() {
     logFile << "Arrival probability (%): " << arrivalProb << "\n";
     logFile << "Max new requests per tick: " << maxNewRequestsPerTick << "\n";
     logFile << "Base process time (cycles): " << baseProcessTime << "\n";
+    
+    int minTaskTime = (baseProcessTime < 1) ? 1 : baseProcessTime;
+    int maxTaskTime = baseProcessTime + 4;
+    logFile << "Task time range (cycles): "
+        << minTaskTime << " to " << maxTaskTime << "\n";
+
     logFile << "Block start (IP first octet): " << blockStart << "\n";
     logFile << "Block end (IP first octet): " << blockEnd << "\n";
     logFile << "=========================\n\n";
@@ -160,6 +166,8 @@ int main() {
 
     lb.makeServers(numServers);
     lb.initQueue(numServers * 100);
+    logFile << "Starting queue size: " << numServers * 100 << "\n\n";
+
 
     for (int currTime = 0; currTime < runTime; ++currTime) {
         lb.ticking(currTime);

@@ -63,6 +63,11 @@ void LoadBalancer::makeRequests()
                         << " by firewall range [" << blockStart << ", " << blockEnd << "]"
                         << COLOR_RESET << "\n";
             }
+
+            if (log) {
+                (*log) << "BLOCKED request: first octet " << a1
+                    << " in firewall range [" << blockStart << ", " << blockEnd << "]\n";
+            }
             // skip this request, treat as firewall/DOS protection
             continue;
         }
@@ -122,9 +127,15 @@ void LoadBalancer::initQueue(int numRequests) {
                         << " by firewall range [" << blockStart << ", " << blockEnd << "]"
                         << COLOR_RESET << "\n";
             }
+
+            if (log) {
+                (*log) << "BLOCKED request: first octet " << a1
+                    << " in firewall range [" << blockStart << ", " << blockEnd << "]\n";
+            }
             // skip this request, treat as firewall/DOS protection
             continue;
         }
+        
 
         int b1 = std::rand() % 256;
         int b2 = std::rand() % 256;
@@ -239,7 +250,7 @@ void LoadBalancer::ticking(int time)
                << ", queue=" << reqQueue.size() << COLOR_RESET << "\n";
     }
 
-    if (log && time % 100 == 0) {
+    if (log) {
         (*log) << "TICK " << time << ": servers=" << numServers
                << ", busy=" << busyNow
                << ", queue=" << reqQueue.size() << "\n";
@@ -278,4 +289,6 @@ void LoadBalancer::printResults()
     (*log) << "Completed requests: " << completedRequests << "\n";
     (*log) << "Blocked requests (firewall): " << blockedRequests << "\n";
     (*log) << "Busy server ticks: " << busyServerTicks << "\n";
+
+    (*log) << "Ending queue size: " << reqQueue.size() << "\n";
 }
