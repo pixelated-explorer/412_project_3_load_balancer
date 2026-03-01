@@ -1,4 +1,8 @@
-/logs
-/configs
+logs/*
+!logs/.gitkeep
+
+configs/*
+!configs/.gitkeep
+
 *.o
 loadbalancer
