@@ -117,7 +117,7 @@ int main() {
         std::cin >> waitCycles;
     }
 
-    if (arrivalProb < 0 || arrivalProb > 100) {
+    if (arrivalProb <= 0 || arrivalProb > 100) {
         std::cout << "Enter new request arrival probability (0 to 100 percent) per tick: ";
         std::cin >> arrivalProb;
     } 
@@ -132,7 +132,7 @@ int main() {
         std::cin >> baseProcessTime;
     }
 
-    if (blockStart < -1) {
+    if (blockStart <= -1) {
         std::cout << "Enter block start time for ip: "; 
         std::cin >> blockStart; 
     }

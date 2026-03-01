@@ -5,6 +5,13 @@
  * The system manages a queue of client Requests and a pool of WebServer
  * instances, dynamically scaling the number of servers based on queue length.
  * 
+ * Running the program: 
+ * - Use 'make' to compile in the terminal. 
+ * ./loadbalancer to run the executable.
+ * - make clean will remove all object files if desired. 
+ * - Ensure that you have a 'configs' folder to save config files as .txt
+ * - You may want to create a 'logs' folder to save load balancer logs.
+ * 
  * Key features:
  * - Random generation of requests with IP addresses, processing times,
  *   and job types (such as streaming vs. processing).

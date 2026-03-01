@@ -275,6 +275,8 @@ void LoadBalancer::printResults()
     std::cout << "Blocked requests (firewall): " << blockedRequests << "\n";
     std::cout << "Busy server ticks: " << busyServerTicks << "\n";
 
+    std::cout << "Ending queue size: " << reqQueue.size() << "\n";
+
 
     if (!log) return;
 
